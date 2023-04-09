@@ -1,0 +1,85 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+group = 'org.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '18'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springVersion = '6.0.6'
+    lombokVersion = '1.18.26'
+    junitVersion = '5.9.2'
+    mockitoVersion = '5.2.0'
+    postgresqlVersion = '42.5.4'
+}
+dependencies {
+
+//    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.5'
+    //slf4j-simple domyślnie nie loguje poziomu poniżej info, slf4j-simple zastępuje np. logbacka;
+//    konfiguracja w simplelogger.properties
+//    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.5'
+    //logback-classic dodaje też slf4j
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.5'
+
+    implementation "org.springframework:spring-core:$springVersion"
+    implementation "org.springframework:spring-beans:$springVersion"
+    implementation "org.springframework:spring-context:$springVersion"
+    implementation "org.springframework:spring-context-support:$springVersion"
+    implementation "org.springframework:spring-expression:$springVersion"
+    implementation "org.springframework:spring-jdbc:$springVersion"
+    implementation "org.springframework:spring-tx:$springVersion"
+
+    implementation "org.postgresql:postgresql:$postgresqlVersion"
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+
+    testImplementation "org.mockito:mockito-junit-jupiter:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+
+    testImplementation "org.springframework:spring-test:$springVersion"
+
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+
+}
+
+
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed","skipped","failed"
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+//jacoco {
+//    toolVersion = "0.8.8"
+//    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+//}
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('reports/jacoco/')
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
