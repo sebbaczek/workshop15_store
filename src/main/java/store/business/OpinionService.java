@@ -9,7 +9,6 @@ import store.domain.Opinion;
 import store.domain.Purchase;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -44,6 +43,9 @@ public class OpinionService {
         
         public List<Opinion> findAll(final String email) {
                 return opinionRepository.findAll(email);
+        }
+        public List<Opinion> findAll() {
+                return opinionRepository.findAll();
         }
         
         @Transactional

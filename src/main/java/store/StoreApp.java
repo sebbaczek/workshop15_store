@@ -2,7 +2,6 @@ package store;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import store.business.RandomDataService;
 import store.business.ReloadDataService;
 import store.infrastructure.configuration.ApplicationConfiguration;
 

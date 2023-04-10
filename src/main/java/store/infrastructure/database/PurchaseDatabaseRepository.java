@@ -3,7 +3,6 @@ package store.infrastructure.database;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -84,9 +83,9 @@ public class PurchaseDatabaseRepository implements PurchaseRepository {
         @Override
         public List<Purchase> findAll() {
                 JdbcTemplate jdbcTemplate = new JdbcTemplate(simpleDriverDataSource);
-                
-                List<Purchase> result = jdbcTemplate.query(SELECT_ALL, dataBaseMapper::mapPurchase2);
-                log.debug("All purchases: [{}]", result);
-                return result;
+        
+                return jdbcTemplate.query(SELECT_ALL, dataBaseMapper::mapPurchase2);
+//                log.debug("All purchases: [{}]", result);
+//                return result;
         }
 }

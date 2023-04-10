@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import store.domain.Customer;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,6 +31,9 @@ public class CustomerService {
         public Customer find(String email) {
                 return customerRepository.find(email)
                                .orElseThrow(()->new RuntimeException("Customer with email: [%s] is missing".formatted(email)));
+        }
+        public List<Customer> findAll() {
+                return customerRepository.findAll();
         }
         
         @Transactional

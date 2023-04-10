@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import store.domain.Producer;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ProducerService {
@@ -15,7 +17,9 @@ public class ProducerService {
         public Producer create (Producer producer){
                 return producerRepository.create(producer);
         }
-        
+        public List<Producer> findAll() {
+                return producerRepository.findAll();
+        }
         @Transactional
         public void removeAll(){
                 

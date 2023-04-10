@@ -3,14 +3,12 @@ package store.infrastructure.database;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Repository;
 import store.business.OpinionRepository;
 import store.domain.Opinion;
-import store.domain.Purchase;
 import store.infrastructure.configuration.DatabaseConfiguration;
 
 import java.util.List;
@@ -70,9 +68,9 @@ public class OpinionDatabaseRepository implements OpinionRepository {
         public List<Opinion> findAll() {
                 JdbcTemplate jdbcTemplate = new JdbcTemplate(simpleDriverDataSource);
                 
-                List<Opinion> result = jdbcTemplate.query(SELECT_ALL, dataBaseMapper::mapOpinion2);
-                log.debug("All opinions: [{}]", result);
-                return result;
+             return jdbcTemplate.query(SELECT_ALL, dataBaseMapper::mapOpinion2);
+//                log.debug("All opinions: [{}]", result);
+//                return result;
         }
         
         @Override
