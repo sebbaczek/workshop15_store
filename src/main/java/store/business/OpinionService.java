@@ -60,5 +60,27 @@ public class OpinionService {
                 
                 
         }
+        
+        public List<Opinion> findUnwantedOpinions() {
+                return opinionRepository.findUnwantedOpinions();
+        }
+        
+        @Transactional
+        public void removeUnwantedOpinions() {
+                opinionRepository.removeUnwantedOpinions();
+        }
+        
+        public boolean customerGivesUnwantedOpinions(String email) {
+        return opinionRepository.customerGivesUnwantedOpinions(email);
+        
+        }
+        
+        public List<Opinion> findAllByProductCode(String productCode) {
+                return opinionRepository.findAllByProductCode(productCode);
+        }
+        
+        public void removeAllByProductCode(String productCode) {
+                opinionRepository.removeAllByProductCode(productCode);
+        }
 }
 

@@ -35,6 +35,16 @@ public class PurchaseDatabaseRepository implements PurchaseRepository {
                 INNER JOIN CUSTOMER AS CUS ON CUS.ID = PUR.CUSTOMER_ID WHERE CUS.EMAIL = :email
                 ORDER BY DATE_TIME
                 """;
+        private static final String SELECT_ALL_BY_PRODUCT_CODE = """
+                SELECT * FROM PURCHASE AS PUR
+                INNER JOIN PRODUCT AS PRO ON PRO.ID = PUR.PRODUCT_ID WHERE
+                PRO.PRODUCT_CODE = :productCode
+                ORDER BY DATE_TIME
+                """;
+        private static final String DELETE_ALL_BY_PRODUCT_CODE = """
+              SELECT FROM PURCHASE
+              WHERE PRODUCT_ID IN (SELECT ID FROM PRODUCT WHERE PRODUCT_CODE = :productCode)
+    """;
         private final SimpleDriverDataSource simpleDriverDataSource;
         private final DataBaseMapper dataBaseMapper;
         
@@ -87,5 +97,18 @@ public class PurchaseDatabaseRepository implements PurchaseRepository {
                 return jdbcTemplate.query(SELECT_ALL, dataBaseMapper::mapPurchase2);
 //                log.debug("All purchases: [{}]", result);
 //                return result;
+        }
+        
+        @Override
+        public List<Purchase> findAllByProductCode(String productCode) {
+                NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(simpleDriverDataSource);
+                return   jdbcTemplate.query(SELECT_ALL_BY_PRODUCT_CODE,Map.of("productCode",productCode),
+                        dataBaseMapper::mapPurchase2);
+        }
+        
+        @Override
+        public void removeAllByProductCode(String productCode) {
+                NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(simpleDriverDataSource);
+                   jdbcTemplate.update(DELETE_ALL_BY_PRODUCT_CODE,Map.of("productCode",productCode));
         }
 }

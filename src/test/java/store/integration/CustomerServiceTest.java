@@ -51,7 +51,8 @@ public class CustomerServiceTest {
                 Assertions.assertNotNull(purchaseService);
                 customerService.removeAll();
                 producerService.removeAll();
-                reloadDataService.loadRandomData();
+//                reloadDataService.loadRandomData();
+                reloadDataService.reloadData();
 //                customerService.removeAll();
 //                producerService.removeAll();
         }
@@ -143,8 +144,21 @@ public class CustomerServiceTest {
              
      }
      
-     
-     
-     
+     //polecenie 8
+     @Test
+        @DisplayName("polecenie 8")
+     void thatCustomersGivingUnwantedOpinionsAreRemoved(){
+              
+                reloadDataService.reloadData();
+                assertEquals(100,customerService.findAll().size());
+                
+                customerService.removeUnwantedCustomers();
+                
+                assertEquals(62,customerService.findAll().size());
+                
+                
+                
+                
+     }
      
 }

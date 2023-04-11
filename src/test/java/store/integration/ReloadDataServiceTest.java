@@ -2,6 +2,7 @@ package store.integration;
 
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -22,38 +23,35 @@ public class ReloadDataServiceTest {
         private ProductService productService;
         private PurchaseService purchaseService;
         @Test
-        void thatDataIsReloaded(){
-                
+        @DisplayName("Przypadek 6")
+        void testReloading() {
+                // given
+                Assertions.assertTrue(customerService.findAll().isEmpty());
+                Assertions.assertTrue(opinionService.findAll().isEmpty());
+                Assertions.assertTrue(producerService.findAll().isEmpty());
+                Assertions.assertTrue(productService.findAll().isEmpty());
+                Assertions.assertTrue(purchaseService.findAll().isEmpty());
+        
+                // when
                 reloadDataService.reloadData();
-                
-                //then
-                List<Customer> allCustomers = customerService.findAll();
-                List<Opinion> allOpinions = opinionService.findAll();
-                List<Producer> allProducers = producerService.findAll();
-                List<Product> allProducts = productService.findAll();
-                List<Purchase> allPurchases = purchaseService.findAll();
         
-                Assertions.assertEquals(100, allCustomers.size());
-                Assertions.assertEquals(140, allOpinions.size());
-                Assertions.assertEquals(20, allProducers.size());
-                Assertions.assertEquals(50, allProducts.size());
-                Assertions.assertEquals(300, allPurchases.size());
-                
-                
-                
-                
-                
-                
-                
+                // then
+                Assertions.assertEquals(100, customerService.findAll().size());
+                Assertions.assertEquals(140, opinionService.findAll().size());
+                Assertions.assertEquals(20, producerService.findAll().size());
+                Assertions.assertEquals(50, productService.findAll().size());
+                Assertions.assertEquals(300, purchaseService.findAll().size());
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 }
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+

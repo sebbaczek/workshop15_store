@@ -8,6 +8,7 @@ import org.springframework.util.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -16,18 +17,18 @@ import java.util.stream.Stream;
 public class ReloadDataService {
         private CustomerService customerService;
         private  ProducerService producerService;
-        private RandomDataService randomDataService;
+//        private RandomDataService randomDataService;
         private ReloadDataRepository reloadDataRepository;
         
-        @Transactional
-        public void loadRandomData(){
-                customerService.removeAll();
-                producerService.removeAll();
-                for (int i = 0; i < 10; i++) {
-                        randomDataService.create();
-                }
-                
-        }
+//        @Transactional
+//        public void loadRandomData(){
+//                customerService.removeAll();
+//                producerService.removeAll();
+//                for (int i = 0; i < 10; i++) {
+//                        randomDataService.create();
+//                }
+//
+//        }
         @Transactional
         public void reloadData(){
                 customerService.removeAll();
@@ -35,12 +36,17 @@ public class ReloadDataService {
 //zadanie 6. - wkładanie insertów z pliku sql w resources
                 
                 try {
-                        Path filepath = ResourceUtils.getFile("classpath:w15-project-sql-inserts.sql").toPath();
-                       Stream.of(Files.readString(filepath).split("INSERT"))
-                               .filter(line->!line.isBlank())
-                               .map(line->"INSERT"+line)
-                               .toList()
-                               .forEach(sql->reloadDataRepository.run(sql));
+                        Path filePath = ResourceUtils.getFile("classpath:w15-project-sql-inserts.sql").toPath();
+//                       Stream.of(Files.readString(filepath).split("INSERT"))
+//                               .filter(line->!line.isBlank())
+//                               .map(line->"INSERT"+line)
+//                               .toList()
+//                               .forEach(sql->reloadDataRepository.run(sql));
+                        Arrays.stream(Files.readString(filePath).split("INSERT"))
+                                .filter(line -> !line.isBlank())
+                                .map(line -> "INSERT" + line)
+                                .toList()
+                                .forEach(sql -> reloadDataRepository.run(sql));
 
                 }catch (Exception e){
                         log.error("Unable to load SQL inserts", e);
